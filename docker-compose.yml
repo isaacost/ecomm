@@ -15,7 +15,7 @@ services:
     volumes:
       - db-mongo-ecomm:/data/db
       - type: bind
-        source: $HOST/Alura/ecomm/mongo
+        source: ./mongo
         target: /mongo-scripts
     restart: always
     ports:
