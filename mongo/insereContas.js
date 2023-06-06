@@ -21,39 +21,39 @@ const result = db.accounts.insertMany([
         },
     },
     {
-        "username": "Alhe",
-        "email": "alhe@email.com",
-        "senha": "def456",
+        "username": "Fihie2",
+        "email": "fihie2@email.com",
+        "senha": "abc123",
         "dataCriacao": criationDate,
-        "cpf": "65165486680",
-        "telefone": "9993162616",
+        "cpf": "03752352301",
+        "telefone": "9991256515",
         "endereco": {
-            "bairro": "Centro",
-            "rua": "Avenida Doutor Manuel Teles",
-            "numero": "1234",
-            "complemento": "apartamento 703",
-            "cep": "25010090",
-            "cidade": "Duque de Caxias",
-            "uf": "RJ"
-        },    
+            "bairro": "Jardim Guaiuba",
+            "rua": "Avenida Humberto Pietro Peres",
+            "numero": "56",
+            "complemento": "apartamento 20",
+            "cep": "11421200",
+            "cidade": "Guarujá",
+            "uf": "SP"
+        },
     },
     {
-        "username": "Gyali",
-        "email": "gyali@email.com",
-        "senha": "ghi789",
+        "username": "Fihie3",
+        "email": "fihie3@email.com",
+        "senha": "abc123",
         "dataCriacao": criationDate,
-        "cpf": "84285290863",
-        "telefone": "9984259831",
+        "cpf": "03752352303",
+        "telefone": "9991256589",
         "endereco": {
-            "bairro": "Jardim Industrial",
-            "rua": "Rua Goiânia",
-            "numero": "754",
-            "complemento": "apartamento 1301",
-            "cep": "32230550",
-            "cidade": "Contagem",
-            "uf": "MG"
+            "bairro": "Jardim Guaiuba",
+            "rua": "Avenida Humberto Pietro Peres",
+            "numero": "56",
+            "complemento": "apartamento 29",
+            "cep": "11421200",
+            "cidade": "Guarujá",
+            "uf": "SP"
         },
-    }, 
+    }
 ]);
 
 console.log(result);
