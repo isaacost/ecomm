@@ -15,6 +15,10 @@ db.createCollection("accounts", {
       ],
       additionalProperties: false,
       properties: {
+        _id: {
+            description: "A unique identifier for an categorie",
+            bsonType: "objectId",   
+         },
         username: {
           bsonType: "string",
           minLength: 5,
