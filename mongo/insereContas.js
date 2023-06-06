@@ -1,59 +1,55 @@
-use('ecomm');
+use("ecomm");
 
-let criationDate = new Date();
-
-const result = db.accounts.insertMany([
-    {
-        "username": "Fihie",
-        "email": "fihie@email.com",
-        "senha": "abc123",
-        "dataCriacao": criationDate,
-        "cpf": "03752352302",
-        "telefone": "9991256514",
-        "endereco": {
-            "bairro": "Jardim Guaiuba",
-            "rua": "Avenida Humberto Pietro Peres",
-            "numero": "56",
-            "complemento": "apartamento 23",
-            "cep": "11421200",
-            "cidade": "Guarujá",
-            "uf": "SP"
-        },
+db.accounts.insertMany([
+  {
+    username: "john.doe",
+    email: "john.doe@example.com",
+    senha: "password123",
+    dataCriacao: new Date(),
+    cpf: "12345678901",
+    telefone: "1234567890",
+    endereco: {
+      bairro: "Centro",
+      rua: "Rua Principal",
+      numero: "123",
+      complemento: "Apartment 4",
+      cep: "12345678",
+      cidade: "São Paulo",
+      uf: "SP",
     },
-    {
-        "username": "Fihie2",
-        "email": "fihie2@email.com",
-        "senha": "abc123",
-        "dataCriacao": criationDate,
-        "cpf": "03752352301",
-        "telefone": "9991256515",
-        "endereco": {
-            "bairro": "Jardim Guaiuba",
-            "rua": "Avenida Humberto Pietro Peres",
-            "numero": "56",
-            "complemento": "apartamento 20",
-            "cep": "11421200",
-            "cidade": "Guarujá",
-            "uf": "SP"
-        },
+  },
+  {
+    username: "jane.smith",
+    email: "jane.smith@example.com",
+    senha: "password456",
+    dataCriacao: new Date(),
+    cpf: "23456789012",
+    telefone: "2345678901",
+    endereco: {
+      bairro: "Vila Nova",
+      rua: "Rua Secundária",
+      numero: "456",
+      complemento: "",
+      cep: "23456789",
+      cidade: "Rio de Janeiro",
+      uf: "RJ",
     },
-    {
-        "username": "Fihie3",
-        "email": "fihie3@email.com",
-        "senha": "abc123",
-        "dataCriacao": criationDate,
-        "cpf": "03752352303",
-        "telefone": "9991256589",
-        "endereco": {
-            "bairro": "Jardim Guaiuba",
-            "rua": "Avenida Humberto Pietro Peres",
-            "numero": "56",
-            "complemento": "apartamento 29",
-            "cep": "11421200",
-            "cidade": "Guarujá",
-            "uf": "SP"
-        },
-    }
+  },
+  {
+    username: "james.brown",
+    email: "james.brown@example.com",
+    senha: "password789",
+    dataCriacao: new Date(),
+    cpf: "34567890123",
+    telefone: "3456789012",
+    endereco: {
+      bairro: "Jardim das Flores",
+      rua: "Rua das Palmeiras",
+      numero: "789",
+      complemento: "House 2",
+      cep: "34567890",
+      cidade: "Belo Horizonte",
+      uf: "MG",
+    },
+  },
 ]);
-
-console.log(result);

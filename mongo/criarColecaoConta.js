@@ -16,37 +16,37 @@ db.createCollection("accounts", {
       additionalProperties: false,
       properties: {
         _id: {
-            description: "A unique identifier for an categorie",
-            bsonType: "objectId",   
-         },
+          description: "A unique identifier for an account",
+          bsonType: "objectId",
+        },
         username: {
           bsonType: "string",
           minLength: 5,
-          description: "must be a string and is required",
+          description: "Must be a string and is required",
         },
         email: {
           bsonType: "string",
           minLength: 5,
-          description: "must be a string and is required",
+          description: "Must be a string and is required",
         },
         senha: {
           bsonType: "string",
           minLength: 5,
-          description: "must be a string and is required",
+          description: "Must be a string and is required",
         },
         dataCriacao: {
           bsonType: "date",
-          description: "must be a date and is required",
+          description: "Must be a date and is required",
         },
         cpf: {
           bsonType: "string",
           pattern: "^[0-9]{11}$",
-          description: "must be a string and is required",
+          description: "Must be a string of exactly 11 digits and is required",
         },
         telefone: {
           bsonType: "string",
           minLength: 10,
-          description: "must be a string and is required",
+          description: "Must be a string and is required",
         },
         endereco: {
           bsonType: "object",
@@ -56,36 +56,36 @@ db.createCollection("accounts", {
             bairro: {
               bsonType: "string",
               minLength: 1,
-              description: "must be a string and is required",
+              description: "Must be a string of at least 1 character and is required",
             },
             rua: {
               bsonType: "string",
               minLength: 1,
-              description: "must be a string and is required",
+              description: "Must be a string of at least 1 character and is required",
             },
             numero: {
               bsonType: "string",
               minLength: 1,
-              description: "must be a string and is required",
+              description: "Must be a string of at least 1 character and is required",
             },
             complemento: {
               bsonType: "string",
-              description: "must be a string",
+              description: "Must be a string",
             },
             cep: {
               bsonType: "string",
               pattern: "^[0-9]{8}$",
-              description: "must be a string and is required",
+              description: "Must be a string of exactly 8 digits and is required",
             },
             cidade: {
               bsonType: "string",
               minLength: 5,
-              description: "must be a string and is required",
+              description: "Must be a string of at least 5 characters and is required",
             },
             uf: {
               bsonType: "string",
-              pattern: "[A-Z]{2}$",
-              description: "must be a string and is required",
+              pattern: "^[A-Z]{2}$",
+              description: "Must be a string of exactly 2 uppercase letters and is required",
             },
           },
         },
