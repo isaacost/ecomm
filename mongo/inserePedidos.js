@@ -4,7 +4,7 @@ const result = db.orders.insertMany([
   {
     dataPedido: new Date(),
     account: {
-      accountId: ObjectId("647f8fa6839459d34a862e84"),
+      accountId: ObjectId("64833e7facc140e02aff7410"),
       nomeCliente: "John Doe",
     },
     enderecoEntrega: {
@@ -18,39 +18,39 @@ const result = db.orders.insertMany([
       },
     itens: [
       {
-        productId: ObjectId("6478d4f1807caa6c1c34ff63"),
-        quantidade: 1,
-        precoUnitario: 3523.00,
+        productId: ObjectId("6478d4f1807caa6c1c34ff67"),
+        quantidade: 2,
+        precoUnitario: 9176.00,
       },
       {
-        productId: ObjectId("6478d4f1807caa6c1c34ff64"),
+        productId: ObjectId("6478d4f1807caa6c1c34ff68"),
         quantidade: 1,
-        desconto: 2.50,
-        precoUnitario: 2500.00,
+        desconto: 89.50,
+        precoUnitario: 1889.00,
       },
     ],
   },
   {
     dataPedido: new Date(),
     account: {
-      accountId: ObjectId("647f8fa6839459d34a862e85"),
+      accountId: ObjectId("64833b0c53e01686aa9d3014"),
       nomeCliente: "Jane Smith",
     },
     enderecoEntrega: {
-        bairro: "Vila Nova",
-        rua: "Rua Secundária",
-        numero: "456",
+        bairro: "Centro",
+        rua: "Rua Principal",
+        numero: "S/N",
         complemento: "",
-        cep: "23456789",
+        cep: "87654321",
         cidade: "Rio de Janeiro",
         uf: "RJ",
       },
     itens: [
       {
-        productId: ObjectId("6478d4f1807caa6c1c34ff67"),
+        productId: ObjectId("6478d4f1807caa6c1c34ff6c"),
         quantidade: 1,
-        desconto: 176.00,
-        precoUnitario: 9176.00,
+        desconto: 179.00,
+        precoUnitario: 8549.10,
       },
     ],
   },
