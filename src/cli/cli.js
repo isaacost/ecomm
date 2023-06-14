@@ -12,12 +12,22 @@ async function processarComando(argumentos){
             await CategoryService.findCategoryById(id);
             break;
         case '--inserirCategoria':
-            const arquivo = argumentos[3]
-            const categoria = await CategoryService.readJSON(arquivo)
+            const arquivo = argumentos[3];
+            const categoria = await CategoryService.readJSON(arquivo);
             if (categoria === undefined){
                 break;
             } else{
-            await CategoryService.createCategory(categoria)
+            await CategoryService.createCategory(categoria);
+            break;
+            }
+        case '--atualizarCategoria':
+            const id2 = argumentos[3];
+            const atualiza = argumentos[4];
+            const update = await CategoryService.readJSON(atualiza);
+            if (update === undefined){
+                break;
+            } else{
+            await CategoryService.updateCategory(id2, update);
             break;
             }
         default:

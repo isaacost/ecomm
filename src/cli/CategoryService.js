@@ -18,6 +18,18 @@ async function resposta(response){
 }
 class CategoryService {
 
+    static async readJSON(path){
+        try {
+            const encoding = 'utf-8';
+            const texto = await fs.promises.readFile(path, encoding);
+            const json = JSON.parse(texto);
+            return json;
+        } catch (error) {
+            console.log('Erro na leitura');
+            return;
+        }
+    }
+
     static async findCategories(){
         const response = await fetch(url);
         await resposta(response);
@@ -41,16 +53,17 @@ class CategoryService {
         await resposta(response);
     }
 
-    static async readJSON(path){
-        try {
-            const encoding = 'utf-8';
-            const texto = await fs.promises.readFile(path, encoding);
-            const json = JSON.parse(texto);
-            return json;
-        } catch (error) {
-            console.log('Erro na leitura');
-            return;
-        }
+    static async updateCategory(id, atualiza){
+        const response = await fetch(`${url}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(atualiza)
+        });
+        
+        await resposta(response);
     }
 }
 
