@@ -1,4 +1,4 @@
-import CategoryService from "./CategoryService.js";
+import CategoryService from './CategoryService.js';
 
 const args = process.argv;
 
@@ -11,6 +11,15 @@ async function processarComando(argumentos){
             const id = argumentos[3]
             await CategoryService.findCategoryById(id);
             break;
+        case '--inserirCategoria':
+            const arquivo = argumentos[3]
+            const categoria = await CategoryService.readJSON(arquivo)
+            if (categoria === undefined){
+                break;
+            } else{
+            await CategoryService.createCategory(categoria)
+            break;
+            }
         default:
             console.log(`${argumentos[2]} não encontrado`)
     }

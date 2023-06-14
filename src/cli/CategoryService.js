@@ -1,11 +1,17 @@
-const url = "http://localhost:3000/categories";
+import fs from 'fs';
+
+const url = 'http://localhost:3000/categories';
 
 async function resposta(response){
     const status = response.status;
         if (status === 200){
          const json = await response.json();
          console.log(`response status: ${status}`)
-         console.log(json);   
+         console.log(json);
+        } else if (status === 201) {
+            const json = await response.json();
+            console.log(`Categoria criada!!\nresponse status: ${status}`)
+            console.log(json);  
         } else {
             console.log(`response status: Erro ${status}!!`);
         } 
@@ -20,7 +26,32 @@ class CategoryService {
     static async findCategoryById(id){
         const response = await fetch(`${url}/${id}`);
         await resposta(response);
-    }    
+    }
+    
+    static async createCategory(category){
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(category)
+        });
+
+        await resposta(response);
+    }
+
+    static async readJSON(path){
+        try {
+            const encoding = 'utf-8';
+            const texto = await fs.promises.readFile(path, encoding);
+            const json = JSON.parse(texto);
+            return json;
+        } catch (error) {
+            console.log('Erro na leitura');
+            return;
+        }
+    }
 }
 
 export default CategoryService;
