@@ -15,4 +15,4 @@ async function processarComando(argumentos){
     }
 }
 
-processarComando(args);
+await processarComando(args);
