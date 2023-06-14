@@ -7,8 +7,9 @@ async function processarComando(argumentos){
         case '--listarCategorias':
             await CategoryService.findCategories();
             break;
-        case '--test':
-            console.log('Apenas um teste');
+        case '--recuperarCategoriaPorId':
+            const id = argumentos[3]
+            await CategoryService.findCategoryById(id);
             break;
         default:
             console.log(`${argumentos[2]} não encontrado`)
