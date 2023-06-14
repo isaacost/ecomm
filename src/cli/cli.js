@@ -30,6 +30,10 @@ async function processarComando(argumentos){
             await CategoryService.updateCategory(id2, update);
             break;
             }
+        case '--excluirCategoria':
+            const id3 = argumentos[3];
+            CategoryService.deleteCategory(id3);
+            break;
         default:
             console.log(`${argumentos[2]} não encontrado`)
     }

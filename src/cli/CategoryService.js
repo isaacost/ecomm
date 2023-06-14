@@ -65,6 +65,18 @@ class CategoryService {
         
         await resposta(response);
     }
+
+    static async deleteCategory(id){
+        const response = await fetch(`${url}/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        await resposta(response);
+    }
 }
 
 export default CategoryService;
