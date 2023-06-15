@@ -18,7 +18,7 @@ paths:
         - category
       summary: Get all categories
       description: Retorna todas as categorias com nome e status
-      operationId: getCategories
+      operationId: findCategories
       responses: 
         '200':
           description: SUCESSO!
@@ -31,6 +31,33 @@ paths:
           content:
             application/json:
               example: "Nou Found"
+  /api/categories/{id}:
+    get:
+      tags:
+        - category
+      summary: Get one category
+      description: Retorna uma categoria especifica
+      operationId: findCategoryById
+      parameters:
+        - name: id
+          in: path
+          description: id da categoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/categories"
+        '404':
+          description: Nenhuma categoria encontrada
+          content:
+            application/json:
+              example: "Nou Found"        
 components:
   schemas:
     category:
