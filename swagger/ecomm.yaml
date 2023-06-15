@@ -200,6 +200,33 @@ paths:
       summary: Get all products
       description: Retorna todos os produtos
       operationId: findProduts
+      parameters:
+        - name: id
+          in: query
+          description: id da categoria a ser filtrada
+          required: false
+          schema:
+              oneOf:
+                - type: string
+                - type: integer
+        - name: minEstoque
+          in: query
+          description: valor minimo de estoque de um produto
+          required: false
+          schema:
+            type: integer
+        - name: maxPreco
+          in: query
+          description: preço máximo de um produto
+          required: false
+          schema:
+            type: integer
+        - name: minPreco
+          in: query
+          description: preço mínimo de um produto
+          required: false
+          schema:
+            type: integer
       responses: 
         '200':
           description: SUCESSO!
