@@ -30,7 +30,7 @@ paths:
           description: Nenhuma categoria encontrada
           content:
             application/json:
-              example: "Nou Found"
+              example: "Not Found"
   /api/categories/{id}:
     get:
       tags:
@@ -57,7 +57,32 @@ paths:
           description: Nenhuma categoria encontrada
           content:
             application/json:
-              example: "Nou Found"        
+              example: "Not Found"        
+  /api/admin/categories:
+    post:
+      tags:
+        - category
+      summary: Create one category
+      description: Cria uma categoria com nome e status
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createCategory"
+      responses:
+        '201':
+          description: Categoria criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/category"
+        '404':
+          description: Erro ao criar categoria
+          content:
+            application/json:
+              example: "Not found"
+  
 components:
   schemas:
     category:
@@ -73,3 +98,11 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/category"
+    createCategory:
+      type: object
+      properties:
+        nome: 
+          type: string
+        status: 
+          type: string
+        
