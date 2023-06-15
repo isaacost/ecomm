@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: Swagger ECOMM - OpenAPI 3.0
+  description: API usada para curso da Alura Level Up - Next Dev
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: https://localhost:3000
+tags:
+  - name: category
+    description: Categorias de produtos 
+paths:
+  /api/categories:
+    get:
+      tags:
+        - category
+      summary: Get all categories
+      description: Retorna todas as categorias com nome e status
+      operationId: getCategories
+      responses: 
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/categories"
+        '404':
+          description: Nenhuma categoria encontrada
+          content:
+            application/json:
+              example: "Nou Found"
+components:
+  schemas:
+    category:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        status:
+          type: string
+    categories:
+      type: array
+      items:
+        $ref: "#/components/schemas/category"
