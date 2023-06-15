@@ -15,6 +15,8 @@ tags:
     description: Produtos
   - name: user
     description: Usuarios
+  - name: order
+    description: Pedidos
 paths:
   /api/categories:
     get:
@@ -474,6 +476,58 @@ paths:
           content:
             application/json:
               example: "Bad Request"
+  /api/orders/{id}:
+    get:
+      tags:
+        - order
+      summary: Get one order
+      description: Retorna um pedido especifico
+      operationId: findOrderById
+      parameters:
+        - name: id
+          in: path
+          description: id do pedido
+          required: true
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+      responses:
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/order"
+        '404':
+          description: Nenhum pedido encontrado
+          content:
+            application/json:
+              example: "Not Found"   
+  /api/orders:
+    post:
+      tags:
+        - order
+      summary: Create one order
+      description: Cria um pedido
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createOrder"
+      responses:
+        '201':
+          description: Pedido criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/order"
+        '404':
+          description: Erro ao criar pedido
+          content:
+            application/json:
+              example: "Not found"
 components:
   schemas:
     category:
@@ -566,6 +620,8 @@ components:
               oneOf:
                 - type: string
                 - type: integer
+            complemento:
+              type: string
             cep:
               type: string
             cidade:
@@ -600,9 +656,109 @@ components:
               oneOf:
                 - type: string
                 - type: integer
+            complemento:
+              type: string
             cep:
               type: string
             cidade:
               type: string
             uf:
               type: string
+    order:
+      type: object
+      properties:
+        _id:
+          oneOf:
+            - type: string
+            - type: integer
+        dataPedido:
+          type: string
+        account:
+          type: object
+          properties:
+            accountId:
+              oneOf:
+                - type: string
+                - type: integer
+            nomeCliente: 
+              type: string
+        enderecoEntrega:
+          type: object
+          properties:
+            bairro:
+              type: string
+            rua:
+              type: string
+            numero:
+              oneOf:
+                - type: string
+                - type: integer
+            complemento:
+              type: string
+            cep:
+              type: string
+            cidade:
+              type: string
+            uf:
+              type: string
+        itens: 
+          type: array
+          items: 
+            type: object
+            properties:
+              productId:
+                oneOf: 
+                  - type: string
+                  - type: integer
+              quantidade:
+                type: integer
+              desconto:
+                type: number
+              precoUnitario:
+                type: number
+    createOrder:
+      type: object
+      properties:
+        account:
+          type: object
+          properties:
+            accountId:
+              oneOf:
+                - type: string
+                - type: integer
+            nomeCliente: 
+              type: string
+        enderecoEntrega:
+          type: object
+          properties:
+            bairro:
+              type: string
+            rua:
+              type: string
+            numero:
+              oneOf:
+                - type: string
+                - type: integer
+            complemento:
+              type: string
+            cep:
+              type: string
+            cidade:
+              type: string
+            uf:
+              type: string
+        itens: 
+          type: array
+          items: 
+            type: object
+            properties:
+              productId:
+                oneOf: 
+                  - type: string
+                  - type: integer
+              quantidade:
+                type: integer
+              desconto:
+                type: number
+              precoUnitario:
+                type: number
