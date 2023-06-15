@@ -82,7 +82,107 @@ paths:
           content:
             application/json:
               example: "Not found"
-  
+  /api/admin/categories/update/{id}:
+    put:
+      tags:
+        - category
+      summary: Update a category
+      description: Atualiza uma categoria
+      operationId: updateCategory
+      parameters:
+        - name: id
+          in: path
+          description: id da categoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createCategory"
+      responses:
+        '200':
+          description: Categoria atualizada!!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/category"
+        '404':
+          description: Categoria não encontrada
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
+  /api/admin/categories/remove/{id}:
+    delete:
+      tags:
+        - category
+      summary: Remove a category
+      description: Remove uma categoria
+      operationId: deleteCategory
+      parameters: 
+        - name: id
+          in: path
+          description: id da categoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200': 
+          description: Categoria removida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/category"
+        '404':
+          description: Categoria não encontrada
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
+  /api/admin/categories/active/{id}:
+    put:
+      tags:
+        - category
+      summary: Active a category
+      description: Ativa uma categoria já existente
+      operationId: activeCategory
+      parameters:
+        - name: id
+          in: path
+          description: id da categoria
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200': 
+          description: Categoria ativada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/category"
+        '404':
+          description: Categoria não encontrada
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"      
 components:
   schemas:
     category:
