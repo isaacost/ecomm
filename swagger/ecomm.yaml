@@ -11,6 +11,8 @@ servers:
 tags:
   - name: category
     description: Categorias de produtos 
+  - name: product
+    description: Produtos
 paths:
   /api/categories:
     get:
@@ -44,15 +46,14 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: SUCESSO!
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/categories"
+                $ref: "#/components/schemas/category"
         '404':
           description: Nenhuma categoria encontrada
           content:
@@ -95,8 +96,7 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       requestBody:
         content:
           application/json:
@@ -132,8 +132,7 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200': 
           description: Categoria removida
@@ -164,8 +163,7 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200': 
           description: Categoria ativada
@@ -183,13 +181,149 @@ paths:
           content:
             application/json:
               example: "Bad Request"      
+  /api/products:
+    get:
+      tags:
+        - product
+      summary: Get all products
+      description: Retorna todos os produtos
+      operationId: findProduts
+      responses: 
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/products"
+        '404':
+          description: Nenhum produto encontrado
+          content:
+            application/json:
+              example: "Not Found"
+  /api/products/{id}:
+    get:
+      tags:
+        - product
+      summary: Get one product
+      description: Retorna um produto especifico
+      operationId: findProductById
+      parameters:
+        - name: id
+          in: path
+          description: id do produto
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '404':
+          description: Nenhum produto encontrado
+          content:
+            application/json:
+              example: "Not Found"     
+  /api/admin/products:
+    post:
+      tags:
+        - product
+      summary: Create one product
+      description: Cria um produto
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createProduct"
+      responses:
+        '201':
+          description: Produto criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '404':
+          description: Erro ao criar produto
+          content:
+            application/json:
+              example: "Not found"
+  /api/admin/products/update/{id}:
+    put:
+      tags:
+        - product
+      summary: Update a product
+      description: Atualiza um produto
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: id do produto
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createProduct"
+      responses:
+        '200':
+          description: Produto atualizado!!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '404':
+          description: Produto não encontrado
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
+  /api/admin/products/remove/{id}:
+    delete:
+      tags:
+        - product
+      summary: Remove a product
+      description: Remove um produto
+      operationId: deleteProduct
+      parameters: 
+        - name: id
+          in: path
+          description: id do produto
+          required: true
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Produto removido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '404':
+          description: Produto não encontrado
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
 components:
   schemas:
     category:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         nome:
           type: string
         status:
@@ -205,4 +339,39 @@ components:
           type: string
         status: 
           type: string
-        
+    product:
+      type: object
+      properties:
+        _id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        preco:
+          type: number
+        estoque:
+          type: integer
+        categoria:
+          type: string
+    products:
+      type: array
+      items:
+        $ref: "#/components/schemas/product"
+    createProduct:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        preco:
+          type: number
+        estoque:
+          type: integer
+        categoria:
+          type: string
