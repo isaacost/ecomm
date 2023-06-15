@@ -6,12 +6,10 @@ async function resposta(response) {
     const { status } = response;
     if (status === 200) {
         const json = await response.json();
-        console.log(`response status: ${status}`);
-        console.log(json);
+        console.log(`response status: ${status}\n`, json);
     } else if (status === 201) {
         const json = await response.json();
-        console.log(`Categoria criada!!\nresponse status: ${status}`);
-        console.log(json);
+        console.log(`Categoria criada!!\nresponse status: ${status}\n`, json);
     } else {
         console.log(`response status: Erro ${status}!!`);
     }

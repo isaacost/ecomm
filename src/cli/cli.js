@@ -6,8 +6,6 @@ async function processarComando(argumentos) {
     const id = argumentos[3];
     const arquivo = argumentos[3];
     const atualiza = argumentos[4];
-    const categoria = await CategoryService.readJSON(arquivo);
-    const update = await CategoryService.readJSON(atualiza);
     switch (argumentos[2]) {
     case '--listarCategorias':
         await CategoryService.findCategories();
@@ -16,14 +14,14 @@ async function processarComando(argumentos) {
         await CategoryService.findCategoryById(id);
         break;
     case '--inserirCategoria':
-        if (categoria === undefined) {
+        if (await CategoryService.readJSON(arquivo) === undefined) {
             break;
         } else {
             await CategoryService.createCategory(categoria);
             break;
         }
     case '--atualizarCategoria':
-        if (update === undefined) {
+        if (await CategoryService.readJSON(atualiza) === undefined) {
             break;
         } else {
             await CategoryService.updateCategory(id, update);
