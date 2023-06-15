@@ -13,6 +13,8 @@ tags:
     description: Categorias de produtos 
   - name: product
     description: Produtos
+  - name: user
+    description: Usuarios
 paths:
   /api/categories:
     get:
@@ -46,7 +48,9 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       responses:
         '200':
           description: SUCESSO!
@@ -96,7 +100,9 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       requestBody:
         content:
           application/json:
@@ -132,7 +138,9 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       responses:
         '200': 
           description: Categoria removida
@@ -163,7 +171,9 @@ paths:
           description: id da categoria
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       responses:
         '200': 
           description: Categoria ativada
@@ -213,7 +223,9 @@ paths:
           description: id do produto
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       responses:
         '200':
           description: SUCESSO!
@@ -263,7 +275,9 @@ paths:
           description: id do produto
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       requestBody:
         content:
           application/json:
@@ -299,7 +313,9 @@ paths:
           description: id do produto
           required: true
           schema:
-            type: string
+            oneOf:
+              - type: string
+              - type: integer
       responses:
         '200': 
           description: Produto removido
@@ -317,13 +333,156 @@ paths:
           content:
             application/json:
               example: "Bad Request"
+  /api/admin/users:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      description: Retorna todos os usuarios
+      operationId: findUsers
+      responses: 
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/users"
+        '404':
+          description: Nenhum usuario encontrado
+          content:
+            application/json:
+              example: "Not Found"
+    post:
+      tags:
+        - user
+      summary: Create one user
+      description: Cria um usuario
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createUser"
+      responses:
+        '201':
+          description: Usuario criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '404':
+          description: Erro ao criar usuario
+          content:
+            application/json:
+              example: "Not found"
+  /api/users/{id}:
+    get:
+      tags:
+        - user
+      summary: Get one user
+      description: Retorna um usuario especifico
+      operationId: findUserById
+      parameters:
+        - name: id
+          in: path
+          description: id do usuario
+          required: true
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+      responses:
+        '200':
+          description: SUCESSO!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '404':
+          description: Nenhum usuario encontrado
+          content:
+            application/json:
+              example: "Not Found"     
+  /api/admin/users/update/{id}:
+    put:
+      tags:
+        - user
+      summary: Update a user
+      description: Atualiza um usuario
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: id do usuario
+          required: true
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createUser"
+      responses:
+        '200':
+          description: Usuario atualizado!!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '404':
+          description: Usuario não encontrado
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
+  /api/admin/users/remove/{id}:
+    delete:
+      tags:
+        - user
+      summary: Remove a user
+      description: Remove um usuario
+      operationId: deleteUser
+      parameters: 
+        - name: id
+          in: path
+          description: id do usuario
+          required: true
+          schema:
+            oneOf:
+              - type: string
+              - type: integer
+      responses:
+        '200': 
+          description: Usuario removido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '404':
+          description: Usuario não encontrado
+          content:
+            application/json:
+              example: "Not found"
+        '400':
+          description: Requisição mal formatada
+          content:
+            application/json:
+              example: "Bad Request"
 components:
   schemas:
     category:
       type: object
       properties:
-        id:
-          type: string
+        _id:
+          oneOf:
+            - type: string
+            - type: integer
         nome:
           type: string
         status:
@@ -343,7 +502,9 @@ components:
       type: object
       properties:
         _id:
-          type: string
+          oneOf:
+            - type: string
+            - type: integer
         nome:
           type: string
         descricao:
@@ -375,3 +536,73 @@ components:
           type: integer
         categoria:
           type: string
+    user:
+      type: object
+      properties:
+        _id:
+          oneOf:
+            - type: string
+            - type: integer
+        username:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: string
+        telefone:
+          type: string
+        dataCriacao:
+          type: string
+        endereco:
+          type: object
+          properties:
+            bairro:
+              type: string
+            rua:
+              type: string
+            numero:
+              oneOf:
+                - type: string
+                - type: integer
+            cep:
+              type: string
+            cidade:
+              type: string
+            uf:
+              type: string
+    users: 
+      type: array
+      items:
+        $ref: "#/components/schemas/user"
+    createUser:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: string
+        telefone:
+          type: string
+        endereco:
+          type: object
+          properties:
+            bairro:
+              type: string
+            rua:
+              type: string
+            numero:
+              oneOf:
+                - type: string
+                - type: integer
+            cep:
+              type: string
+            cidade:
+              type: string
+            uf:
+              type: string
