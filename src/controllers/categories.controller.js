@@ -1,9 +1,30 @@
-import categories from '../models/Category.js';
+import Categories from '../models/Category.js';
+
+function validaCategoria(body) {
+    if (body.nome.length < 3) {
+        throw new Error('Invalid argument: nome');
+    }
+}
 
 class CategoryController {
     static findCategorias = async (req, res) => {
-        const response = await categories.find();
-        res.status(200).json(response);
+        const response = await Categories.find();
+        if (response.length > 0) {
+            res.status(200).json(response);
+        } else {
+            res.status(404).send('Nenhuma categoria encontrada');
+        }
+    };
+
+    static createCategoria = async (req, res) => {
+        try {
+            validaCategoria(req.body);
+            const categoria = new Categories(req.body);
+            await categoria.save();
+            res.status(201).send(categoria.toJSON());
+        } catch (err) {
+            res.status(400).send({ errorMessage: err.message });
+        }
     };
 }
 
