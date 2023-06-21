@@ -1,36 +1,36 @@
-use("ecomm");
+use('ecomm');
 
-const user = db.accounts.findOne({ username: "jane.smith" });
+const user = db.accounts.findOne({ username: 'jane.smith' });
 
 const result = db.orders.aggregate([
     {
         $match: {
-            "account.accountId": user._id
-        }
+            'account.accountId': user._id,
+        },
     },
     {
-        $unwind: "$itens"
+        $unwind: '$itens',
     },
     {
         $group: {
-            _id: "$_id",
-            quantidades: { $sum: "$itens.quantidade" },
+            _id: '$_id',
+            quantidades: { $sum: '$itens.quantidade' },
             totalPedidos: {
                 $sum: {
                     $multiply: [
-                        "$itens.precoUnitario",
-                        "$itens.quantidade"
-                    ]
-                }
+                        '$itens.precoUnitario',
+                        '$itens.quantidade',
+                    ],
+                },
             },
-            totalDesconto: { $sum: "$itens.desconto" }
-        }
+            totalDesconto: { $sum: '$itens.desconto' },
+        },
     },
     {
         $addFields: {
-            user: user.username
-        }
-    }
+            user: user.username,
+        },
+    },
 ]);
 
 console.log(result);
