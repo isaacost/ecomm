@@ -16,6 +16,16 @@ class CategoryController {
         }
     };
 
+    static findById = async (req, res) => {
+        const { id } = req.params;
+        try {
+            const response = await Categories.find({ _id: id });
+            res.status(200).json(response);
+        } catch {
+            res.status(404).send('Nenhuma categoria encontrada');
+        }
+    };
+
     static createCategoria = async (req, res) => {
         try {
             validaCategoria(req.body);
