@@ -8,8 +8,13 @@ async function validCategory(id) {
 }
 
 async function validProduct(body) {
-    if (body.nome.length < 3) {
+    const regexNome = /^(?![0-9])[a-zA-Z0-9]{3,}$/;
+    const regexSlug = /^[a-zA-Z0-9-]+$/;
+    if (!regexNome.test(body.nome)) {
         throw new Error('Invalid argument: nome');
+    }
+    if (!regexSlug.test(body.slug)) {
+        throw new Error('Invalid argument: slug só pode conter letras maiúsculas ou minúsculas, números e hífens');
     }
     if (body.preco <= 0) {
         throw new Error('Invalid argument: preço deve ser maior que zero');
@@ -19,6 +24,7 @@ async function validProduct(body) {
     }
 
     const id = new mongoose.Types.ObjectId(body.categoria.id);
+    console.log(id);
     const category = await validCategory(id);
 
     if (!category) {
@@ -48,7 +54,7 @@ class ProductController {
 
     static createProduct = async (req, res) => {
         try {
-            validProduct(req.body);
+            await validProduct(req.body);
             const produto = new Products(req.body);
             await produto.save();
             res.status(201).json(produto);
@@ -60,15 +66,15 @@ class ProductController {
     static updateProduct = async (req, res) => {
         const { id } = req.params;
         try {
-            validProduct(req.body);
+            await validProduct(req.body);
             try {
                 await Products.findByIdAndUpdate({ _id: id }, req.body);
                 res.status(200).send('Produto atualizado');
             } catch {
                 res.status(404).send('Produto não encontrado');
             }
-        } catch {
-            res.status(400).send('Bad request');
+        } catch (err) {
+            res.status(400).send({ errorMessage: err.message });
         }
     };
 

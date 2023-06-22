@@ -1,7 +1,8 @@
 import Categories from '../models/Category.js';
 
 function validaCategoria(body) {
-    if (body.nome.length < 3) {
+    const regex = /^(?![0-9])[a-zA-Z0-9]{3,}$/;
+    if (!regex.test(body.nome)) {
         throw new Error('Invalid argument: nome');
     }
 }
