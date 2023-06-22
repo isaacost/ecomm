@@ -276,11 +276,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/product"
-        '404':
+        '400':
           description: Erro ao criar produto
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
   /api/admin/products/update/{id}:
     put:
       tags:
@@ -347,11 +347,6 @@ paths:
           content:
             application/json:
               example: "Not found"
-        '400':
-          description: Requisição mal formatada
-          content:
-            application/json:
-              example: "Bad Request"
   /api/admin/users:
     get:
       tags:
