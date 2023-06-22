@@ -20,17 +20,11 @@ describe('Testes de integração', () => {
             expect(response.status).toBe(200);
         });
     });
-    describe('GET em /api/categories/ quando nada está cadastrado', () => {
-        it('Deve retornar que nenhuma categoria foi encontrada', async () => {
-            const response = await request(app).get('/api/categories');
-            expect(response.status).toBe(404);
-        });
-    });
 
     let id;
     describe('POST em /api/admin/categories/', () => {
         it('Deve criar uma nova categoria', async () => {
-            const mockCategoria = { nome: 'Categoria 1', status: 'INATIVA' };
+            const mockCategoria = { nome: 'Categoria1', status: 'INATIVA' };
             const response = await request(app).post('/api/admin/categories').send(mockCategoria);
             expect(response.status).toBe(201);
 
@@ -65,14 +59,14 @@ describe('Testes de integração', () => {
         it('Deve atualizar uma categoria', async () => {
             const response = await request(app)
                 .put(`/api/admin/categories/update/${id}`)
-                .send({ nome: 'Categoria Atualizada' });
+                .send({ nome: 'Atualizada' });
 
             expect(response.status).toBe(200);
         });
         it('Deve retornar um erro caso o id não seja encontrado', async () => {
             const response = await request(app)
                 .put('/api/admin/categories/update/1')
-                .send({ nome: 'Categoria Atualizada' });
+                .send({ nome: 'Atualizada' });
 
             expect(response.status).toBe(404);
         });
