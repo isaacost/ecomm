@@ -1,0 +1,115 @@
+import request from 'supertest';
+import {
+    describe, it, expect, beforeAll, afterAll,
+} from '@jest/globals';
+import app from '../../main.js';
+
+let server;
+beforeAll(async () => {
+    const port = 3000;
+    server = app.listen(port);
+});
+afterAll(() => {
+    server.close();
+});
+
+describe('Testes de integração', () => {
+    describe('Retorno da rota padrão', () => {
+        it('Deve retornar uma mensagem padrão', async () => {
+            const response = await request(app).get('/');
+            expect(response.status).toBe(200);
+        });
+    });
+    describe('GET em /api/categories/ quando nada está cadastrado', () => {
+        it('Deve retornar que nenhuma categoria foi encontrada', async () => {
+            const response = await request(app).get('/api/categories');
+            expect(response.status).toBe(404);
+        });
+    });
+
+    let id;
+    describe('POST em /api/admin/categories/', () => {
+        it('Deve criar uma nova categoria', async () => {
+            const mockCategoria = { nome: 'Categoria 1', status: 'INATIVA' };
+            const response = await request(app).post('/api/admin/categories').send(mockCategoria);
+            expect(response.status).toBe(201);
+
+            id = response.body._id;
+        });
+        it('Não deve criar uma categoria se o nome tiver menos que 3 caracteres', async () => {
+            const mockCategoria = { nome: 'CA' };
+            const response = await request(app).post('/api/admin/categories').send(mockCategoria);
+            expect(response.status).toBe(400);
+        });
+    });
+
+    describe('GET em /api/categories/ quando há algo cadastrado', () => {
+        it('Deve retornar uma lista de categorias', async () => {
+            const response = await request(app).get('/api/categories');
+            expect(response.status).toBe(200);
+        });
+    });
+
+    describe('GET em /api/categories/:id', () => {
+        it('Deve retornar uma categoria específica', async () => {
+            const response = await request(app).get(`/api/categories/${id}`);
+            expect(response.status).toBe(200);
+        });
+        it('Deve retornar um erro, caso o id não exista', async () => {
+            const response = await request(app).get('/api/categories/1');
+            expect(response.status).toBe(404);
+        });
+    });
+
+    describe('PUT em /api/admin/categories/update/:id', () => {
+        it('Deve atualizar uma categoria', async () => {
+            const response = await request(app)
+                .put(`/api/admin/categories/update/${id}`)
+                .send({ nome: 'Categoria Atualizada' });
+
+            expect(response.status).toBe(200);
+        });
+        it('Deve retornar um erro caso o id não seja encontrado', async () => {
+            const response = await request(app)
+                .put('/api/admin/categories/update/1')
+                .send({ nome: 'Categoria Atualizada' });
+
+            expect(response.status).toBe(404);
+        });
+        it('Deve retornar um erro o nome atualizado tenha menos de 3 caracteres', async () => {
+            const response = await request(app)
+                .put(`/api/admin/categories/update/${id}`)
+                .send({ nome: 'CA' });
+
+            expect(response.status).toBe(400);
+        });
+    });
+    describe('PUT em /api/admin/categories/active/:id', () => {
+        it('Deve ativar uma categoria', async () => {
+            const response = await request(app)
+                .put(`/api/admin/categories/active/${id}`);
+
+            expect(response.status).toBe(200);
+        });
+        it('Deve retornar um erro caso o id não seja encontrado', async () => {
+            const response = await request(app)
+                .put('/api/admin/categories/active/1');
+
+            expect(response.status).toBe(404);
+        });
+    });
+    describe('DELETE em /api/admin/categories/remove/:id', () => {
+        it('Deve deletar uma categoria', async () => {
+            const response = await request(app)
+                .delete(`/api/admin/categories/remove/${id}`);
+
+            expect(response.status).toBe(200);
+        });
+        it('Deve retornar um erro caso o id não seja encontrado', async () => {
+            const response = await request(app)
+                .delete('/api/admin/categories/remove/1');
+
+            expect(response.status).toBe(404);
+        });
+    });
+});
