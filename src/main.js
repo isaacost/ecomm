@@ -1,4 +1,7 @@
 import express from 'express';
+import fs from 'fs';
+import YAML from 'yaml';
+import swaggerUi from 'swagger-ui-express';
 import db from './config/dbConnect.js';
 import routes from './routes/index.js';
 
@@ -9,6 +12,11 @@ db.once('open', () => {
 
 const app = express();
 app.use(express.json());
+
+const file = fs.readFileSync('./swagger/ecomm.yaml', 'utf8');
+const swaggerDocument = YAML.parse(file);
+
 routes(app);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;
