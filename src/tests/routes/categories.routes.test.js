@@ -30,7 +30,7 @@ describe('Testes de integração', () => {
 
             id = response.body._id;
         });
-        it('Não deve criar uma categoria se o nome tiver menos que 3 caracteres', async () => {
+        it('Não deve criar uma nova categoria se o nome não for um formato válido', async () => {
             const mockCategoria = { nome: 'CA' };
             const response = await request(app).post('/api/admin/categories').send(mockCategoria);
             expect(response.status).toBe(400);
@@ -70,7 +70,7 @@ describe('Testes de integração', () => {
 
             expect(response.status).toBe(404);
         });
-        it('Deve retornar um erro o nome atualizado tenha menos de 3 caracteres', async () => {
+        it('Deve retornar um erro se o nome atualizado tiver menos de 3 caracteres', async () => {
             const response = await request(app)
                 .put(`/api/admin/categories/update/${id}`)
                 .send({ nome: 'CA' });

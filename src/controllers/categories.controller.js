@@ -1,7 +1,7 @@
 import Categories from '../models/Category.js';
 
 function validaCategoria(body) {
-    const regex = /^(?![0-9])[a-zA-Z0-9]{3,}$/;
+    const regex = /^(?![0-9])[\p{L}\d\s]{3,}$/u;
     if (!regex.test(body.nome)) {
         throw new Error('Invalid argument: nome');
     }

@@ -1,8 +1,8 @@
 import {
     describe, expect, it, jest,
 } from '@jest/globals';
-import Category from '../../models/Category';
-import CategoryController from '../../controllers/categories.controller';
+import Category from '../../models/Category.js';
+import CategoryController from '../../controllers/categories.controller.js';
 
 describe('GET em /api/categories/ quando nada está cadastrado', () => {
     const request = {};

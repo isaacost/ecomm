@@ -1,14 +1,17 @@
-import mongoose from 'mongoose';
 import Products from '../models/Product.js';
 import Categories from '../models/Category.js';
 
 async function validCategory(id) {
-    const category = await Categories.findById({ _id: id });
-    return (category === null);
+    try {
+        await Categories.findById({ _id: id });
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 async function validProduct(body) {
-    const regexNome = /^(?![0-9])[a-zA-Z0-9]{3,}$/;
+    const regexNome = /^(?![0-9])[\p{L}\d\s]{3,}$/u;
     const regexSlug = /^[a-zA-Z0-9-]+$/;
     if (!regexNome.test(body.nome)) {
         throw new Error('Invalid argument: nome');
@@ -23,8 +26,7 @@ async function validProduct(body) {
         throw new Error('Invalid argument: quantidade em estoque deve estar entre 1 e 9999');
     }
 
-    const id = new mongoose.Types.ObjectId(body.categoria.id);
-    console.log(id);
+    const id = body.categoria;
     const category = await validCategory(id);
 
     if (!category) {
