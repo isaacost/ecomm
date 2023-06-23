@@ -1,11 +1,5 @@
 import Categories from '../models/Category.js';
-
-function validaCategoria(body) {
-    const regex = /^(?![0-9])[\p{L}\d\s]{3,}$/u;
-    if (!regex.test(body.nome)) {
-        throw new Error('Invalid argument: nome');
-    }
-}
+import { validaCategoria } from './validation/validations.js';
 
 class CategoryController {
     static findCategorias = async (req, res) => {
