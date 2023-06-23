@@ -4,7 +4,7 @@ import {
 import Category from '../../models/Category.js';
 import CategoryController from '../../controllers/categories.controller.js';
 
-describe('GET em /api/categories/ quando nada está cadastrado', () => {
+describe('GET em /api/admin/users/ quando nada está cadastrado', () => {
     const request = {};
     const response = {};
     it('Deve retornar 404 se não houverem categorias', async () => {

@@ -40,4 +40,74 @@ async function validaProduct(body) {
     }
 }
 
-export { validaCategoria, validaProduct };
+function validaAccount(body) {
+    const regexNome = /^(?![0-9])[\p{L}\d\s]{5,}$/u;
+    const regexEmail = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/;
+    const regexCpfECel = /^[0-9]{11}$/;
+    const regexNum = /^\d|S\/N$/i;
+    const regexCep = /^[0-9]{8}$/;
+    const uf = [
+        'AC',
+        'AL',
+        'AM',
+        'AP',
+        'BA',
+        'CE',
+        'DF',
+        'ES',
+        'GO',
+        'MA',
+        'MG',
+        'MS',
+        'MT',
+        'PA',
+        'PB',
+        'PE',
+        'PI',
+        'PR',
+        'RJ',
+        'RN',
+        'RO',
+        'RR',
+        'RS',
+        'SC',
+        'SE',
+        'SP',
+        'TO',
+    ];
+    if (!regexNome.test(body.username)) {
+        throw new Error('Invalid argument: username');
+    }
+    if (!regexEmail.test(body.email)) {
+        throw new Error('Invalid argument: email');
+    }
+    if (body.senha.length < 5) {
+        throw new Error('Invalid argument: senha');
+    }
+    if (!regexCpfECel.test(body.cpf)) {
+        throw new Error('Invalid argument: cpf');
+    }
+    if (!regexCpfECel.test(body.telefone)) {
+        throw new Error('Invalid argument: telefone');
+    }
+    if (body.endereco.bairro.length < 1) {
+        throw new Error('Invalid argument: bairro');
+    }
+    if (body.endereco.rua.length < 1) {
+        throw new Error('Invalid argument: rua');
+    }
+    if (!regexNum.test(body.endereco.numero)) {
+        throw new Error('Invalid argument: numero');
+    }
+    if (!regexCep.test(body.endereco.cep)) {
+        throw new Error('Invalid argument: cep');
+    }
+    if (body.endereco.cidade.length < 5) {
+        throw new Error('Invalid argument: cidade');
+    }
+    if (!uf.includes(body.endereco.uf)) {
+        throw new Error('Invalid argument: uf');
+    }
+}
+
+export { validaCategoria, validaProduct, validaAccount };

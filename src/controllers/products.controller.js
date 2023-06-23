@@ -7,7 +7,7 @@ class ProductController {
         if (response.length > 0) {
             res.status(200).json(response);
         } else {
-            res.status(404).send('Nenhuma categoria encontrada');
+            res.status(404).send('Nenhum produto encontrado');
         }
     };
 
