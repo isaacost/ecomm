@@ -31,7 +31,7 @@ describe('Testes de integração', () => {
             id = response.body._id;
         });
         it('Não deve criar uma nova categoria se o nome não for um formato válido', async () => {
-            const mockCategoria = { nome: 'CA' };
+            const mockCategoria = { nome: 'CA', status: 'INATIVA' };
             const response = await request(app).post('/api/admin/categories').send(mockCategoria);
             expect(response.status).toBe(400);
         });
@@ -59,21 +59,21 @@ describe('Testes de integração', () => {
         it('Deve atualizar uma categoria', async () => {
             const response = await request(app)
                 .put(`/api/admin/categories/update/${id}`)
-                .send({ nome: 'Atualizada' });
+                .send({ nome: 'Atualizada', status: 'INATIVA' });
 
             expect(response.status).toBe(200);
         });
         it('Deve retornar um erro caso o id não seja encontrado', async () => {
             const response = await request(app)
                 .put('/api/admin/categories/update/1')
-                .send({ nome: 'Atualizada' });
+                .send({ nome: 'Atualizada', status: 'INATIVA' });
 
             expect(response.status).toBe(404);
         });
         it('Deve retornar um erro se o nome atualizado tiver menos de 3 caracteres', async () => {
             const response = await request(app)
                 .put(`/api/admin/categories/update/${id}`)
-                .send({ nome: 'CA' });
+                .send({ nome: 'CA', status: 'INATIVA' });
 
             expect(response.status).toBe(400);
         });

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const productSchema = new mongoose.Schema(
     {
         nome: { type: String, required: true },
-        descricao: { type: String },
+        descricao: { type: String, required: true },
         slug: { tybe: String },
         preco: { tybe: Number },
         estoque: { type: Number },

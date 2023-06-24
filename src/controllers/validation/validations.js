@@ -1,4 +1,7 @@
+/* eslint-disable no-await-in-loop */
 import Categories from '../../models/Category.js';
+import Accounts from '../../models/Account.js';
+import Products from '../../models/Product.js';
 
 function validaCategoria(body) {
     const regex = /^(?![0-9])[\p{L}\d\s]{3,}$/u;
@@ -10,6 +13,24 @@ function validaCategoria(body) {
 async function validCategory(id) {
     try {
         await Categories.findById({ _id: id });
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+async function validAccount(id) {
+    try {
+        await Accounts.findById({ _id: id });
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+async function validProduct(id) {
+    try {
+        await Products.findById({ _id: id });
         return true;
     } catch {
         return false;
@@ -40,10 +61,7 @@ async function validaProduct(body) {
     }
 }
 
-function validaAccount(body) {
-    const regexNome = /^(?![0-9])[\p{L}\d\s]{5,}$/u;
-    const regexEmail = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/;
-    const regexCpfECel = /^[0-9]{11}$/;
+function validaEndereco(body) {
     const regexNum = /^\d|S\/N$/i;
     const regexCep = /^[0-9]{8}$/;
     const uf = [
@@ -75,21 +93,7 @@ function validaAccount(body) {
         'SP',
         'TO',
     ];
-    if (!regexNome.test(body.username)) {
-        throw new Error('Invalid argument: username');
-    }
-    if (!regexEmail.test(body.email)) {
-        throw new Error('Invalid argument: email');
-    }
-    if (body.senha.length < 5) {
-        throw new Error('Invalid argument: senha');
-    }
-    if (!regexCpfECel.test(body.cpf)) {
-        throw new Error('Invalid argument: cpf');
-    }
-    if (!regexCpfECel.test(body.telefone)) {
-        throw new Error('Invalid argument: telefone');
-    }
+
     if (body.endereco.bairro.length < 1) {
         throw new Error('Invalid argument: bairro');
     }
@@ -110,4 +114,60 @@ function validaAccount(body) {
     }
 }
 
-export { validaCategoria, validaProduct, validaAccount };
+function validaAccount(body) {
+    const regexNome = /^(?![0-9])[\p{L}\d\s]{5,}$/u;
+    const regexEmail = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/;
+    const regexCpfECel = /^[0-9]{11}$/;
+
+    if (!regexNome.test(body.username)) {
+        throw new Error('Invalid argument: username');
+    }
+    if (!regexEmail.test(body.email)) {
+        throw new Error('Invalid argument: email');
+    }
+    if (body.senha.length < 5) {
+        throw new Error('Invalid argument: senha');
+    }
+    if (!regexCpfECel.test(body.cpf)) {
+        throw new Error('Invalid argument: cpf');
+    }
+    if (!regexCpfECel.test(body.telefone)) {
+        throw new Error('Invalid argument: telefone');
+    }
+    validaEndereco(body);
+}
+
+async function validaPedido(body) {
+    const regexNome = /^(?![0-9])[\p{L}\d\s]{5,}$/u;
+    const id = body.account.accountId;
+    const user = await validAccount(id);
+    const tamanho = body.itens.length;
+    for (let i = 0; i < tamanho; i += 1) {
+        const idProduto = body.itens[i].productId;
+        const product = await validProduct(idProduto);
+        if (!product) {
+            throw new Error('Invalid argumento: produto não encontrado');
+        }
+        if (body.itens[i].quantidade < 1) {
+            throw new Error('Invalid argument: quantidade');
+        }
+        if (body.itens[i].desconto <= 0) {
+            throw new Error('Invalid argument: desconto');
+        }
+        if (body.itens[i].precoUnitario <= 0) {
+            throw new Error('Invalid argument: preço unitario');
+        }
+    }
+
+    if (!user) {
+        throw new Error('Invalid argumento: usuário não encontrado');
+    }
+    if (!regexNome.test(body.account.nomeCliente)) {
+        throw new Error('Invalid argument: username');
+    }
+    validaEndereco(body);
+}
+
+export {
+    validaCategoria, validaProduct, validaAccount, validaPedido,
+};

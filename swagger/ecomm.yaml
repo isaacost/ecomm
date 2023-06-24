@@ -384,11 +384,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
-        '404':
+        '400':
           description: Erro ao criar usuario
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
   /api/users/{id}:
     get:
       tags:
@@ -535,11 +535,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/order"
-        '404':
+        '400':
           description: Erro ao criar pedido
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
 components:
   schemas:
     category:
