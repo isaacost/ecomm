@@ -7,7 +7,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.11
 servers:
-  - url: https://localhost:3000
+  - url: http://localhost:3000
 tags:
   - name: category
     description: Categorias de produtos 
@@ -24,7 +24,7 @@ paths:
         - category
       summary: Get all categories
       description: Retorna todas as categorias com nome e status
-      operationId: findCategories
+      operationId: findCategorias
       responses: 
         '200':
           description: SUCESSO!
@@ -43,7 +43,7 @@ paths:
         - category
       summary: Get one category
       description: Retorna uma categoria especifica
-      operationId: findCategoryById
+      operationId: findCategoriaById
       parameters:
         - name: id
           in: path
@@ -71,7 +71,7 @@ paths:
         - category
       summary: Create one category
       description: Cria uma categoria com nome e status
-      operationId: createCategory
+      operationId: createCategoria
       requestBody:
         content:
           application/json:
@@ -84,18 +84,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/category"
-        '404':
+        '400':
           description: Erro ao criar categoria
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
   /api/admin/categories/update/{id}:
     put:
       tags:
         - category
       summary: Update a category
       description: Atualiza uma categoria
-      operationId: updateCategory
+      operationId: updateCategoria
       parameters:
         - name: id
           in: path
@@ -133,7 +133,7 @@ paths:
         - category
       summary: Remove a category
       description: Remove uma categoria
-      operationId: deleteCategory
+      operationId: deleteCategoria
       parameters: 
         - name: id
           in: path
@@ -155,18 +155,13 @@ paths:
           content:
             application/json:
               example: "Not found"
-        '400':
-          description: Requisição mal formatada
-          content:
-            application/json:
-              example: "Bad Request"
   /api/admin/categories/active/{id}:
     put:
       tags:
         - category
       summary: Active a category
       description: Ativa uma categoria já existente
-      operationId: activeCategory
+      operationId: activeCategoria
       parameters:
         - name: id
           in: path
@@ -188,11 +183,6 @@ paths:
           content:
             application/json:
               example: "Not found"
-        '400':
-          description: Requisição mal formatada
-          content:
-            application/json:
-              example: "Bad Request"      
   /api/products:
     get:
       tags:
@@ -286,11 +276,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/product"
-        '404':
+        '400':
           description: Erro ao criar produto
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
   /api/admin/products/update/{id}:
     put:
       tags:
@@ -357,11 +347,6 @@ paths:
           content:
             application/json:
               example: "Not found"
-        '400':
-          description: Requisição mal formatada
-          content:
-            application/json:
-              example: "Bad Request"
   /api/admin/users:
     get:
       tags:
@@ -399,11 +384,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
-        '404':
+        '400':
           description: Erro ao criar usuario
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
   /api/users/{id}:
     get:
       tags:
@@ -550,11 +535,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/order"
-        '404':
+        '400':
           description: Erro ao criar pedido
           content:
             application/json:
-              example: "Not found"
+              example: "Bad request"
 components:
   schemas:
     category:

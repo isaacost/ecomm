@@ -2,9 +2,15 @@ version: '3.9'
 services:
   ecomm:
     build: .
-    image: ecomm:1.0
+    image: ecomm:4.0
     ports:
       - 3000:3000
+    depends_on:
+      - mongo-ecomm
+    links:
+      - mongo-ecomm
+    environment:
+      MONGO_HOST: mongo-ecomm
 
   mongo-ecomm:
     image: mongo
